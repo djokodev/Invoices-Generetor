@@ -8,6 +8,10 @@ from django.shortcuts import render
 def Home(request):
     return render(request, 'home.html')
 
+def DashboardView(request):
+    user = request.user
+    return render(request, "dashboard.html", context={user:user})
+
 class UserRegisterView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'users/register.html'
