@@ -1,0 +1,41 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block header %}
+    <head></head>
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Invoices Generetor</title>
+    </head>
+{% endblock header %}
+
+{% block content %}
+<header>
+    <div class="container">
+        <h1 class="hero-title">Créez des Factures PDF Professionnelles en Secondes</h1>
+        <p class="hero-subtitle">Simplifiez votre facturation avec notre application intuitive. Générez des factures personnalisées, rapides et professionnelles en quelques clics.</p>
+        <a href="{% url 'login' %}" class="cta-button">Commencez Maintenant</a>
+    </div>
+</header>
+
+<section class="features container">
+    <div class="feature">
+        <div class="feature-icon">✨</div>
+        <h2 class="feature-title">Facilité d'Utilisation</h2>
+        <p class="feature-description">Interface simple et intuitive pour une création de factures sans stress.</p>
+    </div>
+    <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h2 class="feature-title">Génération Rapide</h2>
+        <p class="feature-description">Générez des factures PDF en quelques secondes, sans complications.</p>
+    </div>
+    <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <h2 class="feature-title">Modèles Personnalisables</h2>
+        <p class="feature-description">Choisissez parmi une variété de modèles professionnels et personnalisez-les.</p>
+    </div>
+</section>
+
+{% endblock %}
+

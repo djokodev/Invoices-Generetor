@@ -1,0 +1,13 @@
+# Ignorer les environnements virtuels
+.venv/
+
+# Ignorer les fichiers de configuration locaux
+.env
+
+# Ignorer les fichiers/dossiers liés au versionnement
+.git/
+.gitignore
+
+# Ignorer les fichiers de l'IDE
+.vscode/
+.idea/
