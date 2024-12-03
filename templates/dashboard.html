@@ -4,7 +4,11 @@
 
     {% if user %}
 
-        <h1>🖖🏿{{ user.email }}</h1>
+        <h3>🖖🏿{{ user.email }}</h3>
+        <a href="{% url 'create_customer' %}">Créer un Client</a>
+        <a href="{% url 'create_category' %}">Ajouter une categorie de produit</a>
+        <a href="{% url 'create_product' %}">Ajouter un produit</a>
+        <a href="">Generer une facture</a>
 
     {% endif %}
 
