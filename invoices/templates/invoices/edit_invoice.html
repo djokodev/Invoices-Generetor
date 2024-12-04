@@ -64,5 +64,11 @@
             <p style="margin-right: 8px;">Total : </p> 
             <p style="color: green;">{{ invoice.total_price }}€</p>
         </div>
+
+        <div class="actions" style="margin-top: 20px;">
+            <a href="{% url 'invoices:generate_pdf' invoice.id %}" class="btn" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+                Générer PDF
+            </a>
+        </div>
     </div>
 {% endblock %}

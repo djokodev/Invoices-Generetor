@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #333;
+        }
+
+        .header {
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .company-info {
+            float: left;
+            width: 40%;
+        }
+
+        .company-info h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .company-info p {
+            margin: 5px 0;
+            color: #7f8c8d;
+        }
+
+        .invoice-details {
+            float: right;
+            width: 40%;
+            text-align: right;
+        }
+
+        .invoice-details h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .client-info {
+            clear: both;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .client-info h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .total {
+            text-align: right;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .total p {
+            font-size: 1.2em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        /* Ajout d'une ligne de séparation */
+        .separator {
+            border-top: 2px solid #2c3e50;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="invoice-details">
+            <h1>Facture #{{ invoice.id }}</h1>
+            <p>Date: {{ invoice.date }}</p>
+        </div>
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="client-info">
+        <h3>Facturer à:</h3>
+        <p>{{ invoice.customer.name }} {{ invoice.customer.first_name }}</p>
+        <p>{{ invoice.customer.email }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>TVA</th>
+                <th>Total TTC</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for line in invoice.lines.all %}
+            <tr>
+                <td>{{ line.product.name }}</td>
+                <td>{{ line.quantity }}</td>
+                <td>{{ line.unit_price }}€</td>
+                <td>{{ line.tva }}%</td>
+                <td>{{ line.total_price }}€</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total">
+        <p>Total TTC : {{ invoice.total_price }}€</p>
+    </div>
+</body>
+</html> 
