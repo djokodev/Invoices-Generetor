@@ -17,6 +17,12 @@
     </div>
     <div class="form-content">
         <h1 class="form-title">Détails du Produit</h1>
+
+        {% if form.errors %}
+            <div class="form-errors">
+                {{ form.errors }}
+            </div>
+        {% endif %}
         
         <form method="post">
             {% csrf_token %}
@@ -28,6 +34,30 @@
                     {% if form.name.errors %}
                         <div class="error-message">
                             {% for error in form.name.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group {% if form.brand.errors %}has-error{% endif %}">
+                    <label>Marque</label>
+                    {{ form.brand }}
+                    {% if form.brand.errors %}
+                        <div class="error-message">
+                            {% for error in form.brand.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group {% if form.reference.errors %}has-error{% endif %}">
+                    <label>Référence</label>
+                    {{ form.reference }}
+                    {% if form.reference.errors %}
+                        <div class="error-message">
+                            {% for error in form.reference.errors %}
                                 {{ error }}
                             {% endfor %}
                         </div>

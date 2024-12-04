@@ -101,6 +101,7 @@
         <div class="invoice-details">
             <h1>Facture #{{ invoice.id }}</h1>
             <p>Date: {{ invoice.date }}</p>
+            <p>Délivré par : {{ invoice.user.email }}</p>
         </div>
     </div>
 
@@ -108,8 +109,10 @@
 
     <div class="client-info">
         <h3>Facturer à:</h3>
-        <p>{{ invoice.customer.name }} {{ invoice.customer.first_name }}</p>
-        <p>{{ invoice.customer.email }}</p>
+        <p>Nom: {{ invoice.customer.name }} {{ invoice.customer.first_name }}</p>
+        <p>Email: {{ invoice.customer.email }}</p>
+        <p>Tel: {{ invoice.customer.phone }}</p>
+        <p> Adresse: {{ invoice.customer.address }}</p>
     </div>
 
     <table>

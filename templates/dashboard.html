@@ -1,15 +1,53 @@
 {% extends '_base.html' %}
+{% load static %}
+
+
+{% block header %}
+    <head>
+        <link rel="stylesheet" href="{% static 'css/dashbord.css' %}">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home </title>
+    </head>
+{% endblock header %}
 
 {% block content %}
 
     {% if user %}
+        <div class="container">
+            <header>
+                <h1>Bienvenue, {{ user.email }} 🖖🏿</h1>
+                <p class="hero-subtitle">Accédez à toutes les fonctionnalités pour gérer vos clients, produits et factures.</p>
+            </header>
 
-        <h3>🖖🏿{{ user.email }}</h3>
-        <a href="{% url 'create_customer' %}">Créer un Client</a>
-        <a href="{% url 'create_category' %}">Ajouter une categorie de produit</a>
-        <a href="{% url 'create_product' %}">Ajouter un produit</a>
-        <a href="{% url 'invoices:create_invoice' %}">Creer une facture</a>
-
+            <div class="action-container">
+                <div class="action">
+                    <a href="{% url 'create_customer' %}" class="action-link">
+                        <span class="action-icon"><i class="fas fa-user-plus"></i></span>
+                        Créer un Client
+                    </a>
+                </div>
+                <div class="action">
+                    <a href="{% url 'create_category' %}" class="action-link">
+                        <span class="action-icon"><i class="fas fa-box-open"></i></span>
+                        Ajouter une catégorie de produit
+                    </a>
+                </div>
+                <div class="action">
+                    <a href="{% url 'create_product' %}" class="action-link">
+                        <span class="action-icon"><i class="fas fa-cogs"></i></span>
+                        Ajouter un produit
+                    </a>
+                </div>
+                <div class="action">
+                    <a href="{% url 'invoices:create_invoice' %}" class="action-link">
+                        <span class="action-icon"><i class="fas fa-file-invoice"></i></span>
+                        Créer une facture
+                    </a>
+                </div>
+            </div>
+        </div>
     {% endif %}
 
 {% endblock %}

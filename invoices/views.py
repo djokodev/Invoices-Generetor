@@ -7,7 +7,6 @@ from products.models import Product
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
-import tempfile
 
 
 class InvoiceCreateView(LoginRequiredMixin, CreateView):
@@ -16,6 +15,7 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
     fields = ["customer"]
 
     def form_valid(self, form):
+        form.instance.user = self.request.user
         invoice = form.save()
         return redirect("invoices:edit_invoice", invoice_id=invoice.id)
 
@@ -58,14 +58,17 @@ def EditInvoices(request, invoice_id):
 
 def generate_invoice_pdf(request, invoice_id):
     invoice = get_object_or_404(Invoice, id=invoice_id)
-    
-    html_string = render_to_string('invoices/pdf_template.html', {
-        'invoice': invoice,
-    })
-    
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = f'attachment; filename="facture_{invoice.id}.pdf"'
-    
+
+    html_string = render_to_string(
+        "invoices/pdf_template.html",
+        {
+            "invoice": invoice,
+        },
+    )
+
+    response = HttpResponse(content_type="application/pdf")
+    response["Content-Disposition"] = f'attachment; filename="facture_{invoice.id}.pdf"'
+
     HTML(string=html_string).write_pdf(response)
-    
+
     return response

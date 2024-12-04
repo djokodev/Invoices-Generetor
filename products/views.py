@@ -2,6 +2,7 @@ from .models import Category, Product
 from .forms import ProductForm, CategoryForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
 
 
 class ProductCreateView(CreateView):

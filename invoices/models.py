@@ -1,4 +1,8 @@
 from django.db import models
+import uuid
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class Invoice(models.Model):
@@ -7,10 +11,12 @@ class Invoice(models.Model):
         ("validated", "Validée"),
         ("cancelled", "Annulée"),
     ]
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer = models.ForeignKey("customers.Customer", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="draft")
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def update_total(self):
         self.total_price = sum(line.total_price for line in self.lines.all())

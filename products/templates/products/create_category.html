@@ -7,6 +7,9 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <div>     
+            <a href="{% url 'dashboard' %}">Retour</a>
+        </div>
     </form>
 </div>
 {% endblock %}
