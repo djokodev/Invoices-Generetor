@@ -8,7 +8,7 @@
         <a href="{% url 'create_customer' %}">Créer un Client</a>
         <a href="{% url 'create_category' %}">Ajouter une categorie de produit</a>
         <a href="{% url 'create_product' %}">Ajouter un produit</a>
-        <a href="">Generer une facture</a>
+        <a href="{% url 'invoices:create_invoice' %}">Creer une facture</a>
 
     {% endif %}
 

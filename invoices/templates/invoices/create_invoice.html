@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Créer une nouvelle facture</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_customer">Client :</label>
+            {{ form.customer }}
+        </div>
+        <button type="submit" class="btn btn-primary">Créer la facture</button>
+    </form>
+</div>
+{% endblock %} 

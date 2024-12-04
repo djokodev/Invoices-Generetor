@@ -1,0 +1,68 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <h1>Edition Facture #{{ invoice.id }}</h1>
+    
+    <!-- Informations client -->
+    <div class="client-info">
+        <p>Client : {{ invoice.customer.name }} {{ invoice.customer.first_name }}</p>
+        <p>Date : {{ invoice.date }}</p>
+    </div>
+
+    <!-- Formulaire d'ajout de produit -->
+    <div class="add-product">
+        <h3>Ajouter un produit</h3>
+        <br>
+        <form method="post">
+            {% csrf_token %}
+            <select name="product">
+                {% for product in products %}
+                    <option value="{{ product.id }}">
+                        {{ product.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <input type="number" name="quantity" value="1" min="1">
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
+
+    <!-- Liste des produits de la facture -->
+    <div class="products-list">
+        <h3>Produits de la facture</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in invoice.lines.all %}
+                    <tr>
+                        <td>{{ line.product.name }}</td>
+                        <td>{{ line.quantity }}</td>
+                        <td>{{ line.unit_price }}€</td>
+                        <td>{{ line.total_price }}€</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="remove">
+                                <input type="hidden" name="line_id" value="{{ line.id }}">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div class="total" style="display: flex; align-items: center;">
+            <p style="margin-right: 8px;">Total : </p> 
+            <p style="color: green;">{{ invoice.total_price }}€</p>
+        </div>
+    </div>
+{% endblock %}

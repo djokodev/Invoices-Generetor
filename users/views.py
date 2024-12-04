@@ -10,7 +10,7 @@ def Home(request):
     """
        Fonction qui renvoie l'utilsiateur à la landing page 
     """
-    return render(request, "home.html")
+    return render(request, 'home.html')
 
 @login_required
 def DashboardView(request):
