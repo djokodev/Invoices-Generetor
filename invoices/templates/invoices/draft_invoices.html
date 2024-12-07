@@ -1,0 +1,13 @@
+<h1>Factures en Brouillon</h1>
+<ul>
+    {% for draft in drafts %}
+        <li>
+            Facture #{{ draft.id }} - {{ draft.date }} 
+            <a href="{% url 'invoices:edit_invoice' draft.id %}">Éditer</a>
+            <form method="post" action="{% url 'invoices:delete_invoice' draft.id %}">
+                {% csrf_token %}
+                <button type="submit">Supprimer</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>

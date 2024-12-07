@@ -20,8 +20,24 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         return redirect("invoices:edit_invoice", invoice_id=invoice.id)
 
 
+def DeleteInvoice(request, invoice_id):
+    invoice = get_object_or_404(Invoice, id=invoice_id, user=request.user)
+    invoice.delete()
+    return redirect("invoices:draft_invoices")
+
+
+def DraftInvoicesView(request):
+    drafts = Invoice.objects.filter(status="draft", user=request.user)
+    return render(request, "invoices/draft_invoices.html", {"drafts": drafts})
+
+
 def EditInvoices(request, invoice_id):
     invoice = get_object_or_404(Invoice, id=invoice_id)
+
+    if request.POST.get("action") == "save_draft":
+        invoice.status = "draft"
+        invoice.save()
+        return redirect("invoices:draft_invoices")
 
     if request.method == "POST":
         # Gestion de la suppression d'un produit
@@ -31,6 +47,7 @@ def EditInvoices(request, invoice_id):
                 line = get_object_or_404(InvoiceProduct, id=line_id, invoice=invoice)
                 line.delete()
                 invoice.update_total()
+
         # Gestion de l'ajout d'un produit
         else:
             product_id = request.POST.get("product")
@@ -46,7 +63,6 @@ def EditInvoices(request, invoice_id):
                 )
                 invoice.update_total()
 
-    # Récupération des produits pour le formulaire
     products = Product.objects.all()
 
     context = {
@@ -56,15 +72,10 @@ def EditInvoices(request, invoice_id):
     return render(request, "invoices/edit_invoice.html", context=context)
 
 
-def generate_invoice_pdf(request, invoice_id):
+def generate_invoice_pdf(invoice_id):
     invoice = get_object_or_404(Invoice, id=invoice_id)
 
-    html_string = render_to_string(
-        "invoices/pdf_template.html",
-        {
-            "invoice": invoice,
-        },
-    )
+    html_string = render_to_string("invoices/pdf_template.html",{"invoice": invoice})
 
     response = HttpResponse(content_type="application/pdf")
     response["Content-Disposition"] = f'attachment; filename="facture_{invoice.id}.pdf"'

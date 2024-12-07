@@ -10,6 +10,9 @@
             {{ form.customer }}
         </div>
         <button type="submit" class="btn btn-primary">Créer la facture</button>
+        <a href="{% url 'invoices:draft_invoices' %}" class="btn" style="background-color: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
+          Brouillons
+        </a>
         <div>     
             <a href="{% url 'dashboard' %}">Retour</a>
         </div>
