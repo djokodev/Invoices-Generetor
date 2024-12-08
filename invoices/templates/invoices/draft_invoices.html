@@ -1,13 +1,144 @@
-<h1>Factures en Brouillon</h1>
-<ul>
-    {% for draft in drafts %}
-        <li>
-            Facture #{{ draft.id }} - {{ draft.date }} 
-            <a href="{% url 'invoices:edit_invoice' draft.id %}">Éditer</a>
-            <form method="post" action="{% url 'invoices:delete_invoice' draft.id %}">
-                {% csrf_token %}
-                <button type="submit">Supprimer</button>
-            </form>
-        </li>
-    {% endfor %}
-</ul>
+{% extends '_base.html' %}
+{% load static %}
+
+{% block header %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Factures en Brouillon</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: #f4f6f9;
+                color: #333;
+                line-height: 1.6;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                color: #2c3e50;
+                margin-bottom: 30px;
+                text-align: center;
+                font-weight: 600;
+            }
+
+            .draft-card {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: transform 0.3s ease;
+            }
+
+            .draft-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .draft-info {
+                flex-grow: 1;
+            }
+
+            .draft-id {
+                font-size: 1.2rem;
+                color: #3498db;
+                font-weight: 600;
+            }
+
+            .draft-date {
+                font-size: 1rem;
+                color: #555;
+            }
+
+            .action-buttons {
+                display: flex;
+                gap: 10px;
+            }
+
+            .action-buttons a, .action-buttons button {
+                background-color: #3498db;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 15px;
+                text-decoration: none;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .action-buttons a:hover, .action-buttons button:hover {
+                background-color: #2980b9;
+            }
+
+            
+            .action-buttons button {
+                background-color: #e74c3c; /* Couleur rouge pour le bouton supprimer */
+                color: white;
+                border: none;
+                border-radius: 5px;
+                padding: 10px 15px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .action-buttons button:hover {
+                background-color: #c0392b; /* Couleur rouge foncé au survol */
+            }
+            
+
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 2rem;
+                }
+
+                .draft-id {
+                    font-size: 1.1rem;
+                }
+            }
+        </style>
+    </head>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <h1>Factures en Brouillon</h1>
+    {% if drafts %}
+        <div>
+            {% for draft in drafts %}
+                <div class="draft-card">
+                    <div class="draft-info">
+                        <div class="draft-id">Facture #{{ draft.short_id }}</div>
+                        <div class="draft-date">Date : {{ draft.date|date:"d/m/Y H:i" }}</div>
+                        <div class="draft-date">Nom : {{ draft.customer.name }} {{ draft.customer.first_name }}</div>
+                        <div class="draft-date">Phone : {{ draft.customer.phone }}</div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="{% url 'invoices:edit_invoice' draft.id %}">Éditer</a>
+                        <form method="post" action="{% url 'invoices:delete_invoice' draft.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Aucune facture en brouillon trouvée.</p>
+    {% endif %}
+</div>
+{% endblock %}
