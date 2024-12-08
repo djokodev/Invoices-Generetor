@@ -48,6 +48,22 @@
                 </div>
             </div>
         </div>
+
+        <div class="action-container">
+            <div class="action">
+                <a href="{% url 'list_customers' %}" class="action-link">
+                    <span class="action-icon"><i class="fas fa-user"></i></span>
+                   Clients
+                </a>
+            </div>
+            <div class="action">
+                <a href="{% url 'list_categories_products' %}" class="action-link">
+                    <span class="action-icon"><i class="fas fa-box"></i></span>
+                    Produis & categories
+                </a>
+            </div>
+        </div>
+    </div>
     {% endif %}
 
 {% endblock %}

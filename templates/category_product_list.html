@@ -1,0 +1,117 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block header %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Liste des Catégories et Produits</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: #f4f6f9;
+                color: #333;
+                line-height: 1.6;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            .category-section {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                color: #2c3e50;
+                margin-bottom: 30px;
+                text-align: center;
+                font-weight: 600;
+            }
+
+            .category-title {
+                font-size: 1.8rem;
+                color: #3498db;
+                margin-bottom: 15px;
+                border-bottom: 2px solid #3498db;
+                padding-bottom: 10px;
+            }
+
+            .product-list {
+                list-style-type: none;
+            }
+
+            .product-item {
+                background-color: #f9f9f9;
+                margin-bottom: 10px;
+                padding: 15px;
+                border-radius: 6px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: background-color 0.3s ease;
+            }
+
+            .product-item:hover {
+                background-color: #f0f0f0;
+            }
+
+            .product-name {
+                font-weight: 500;
+                color: #2c3e50;
+            }
+
+            .product-price {
+                color: #27ae60;
+                font-weight: 600;
+            }
+
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 2rem;
+                }
+
+                .category-title {
+                    font-size: 1.5rem;
+                }
+
+                .product-item {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+            }
+        </style>
+    </head>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <h1>Liste des Catégories et Produits</h1>
+    {% for category in categories %}
+        <div class="category-section">
+            <h2 class="category-title">{{ category.name }}</h2>
+            <ul class="product-list">
+                {% for product in category.product_set.all %}
+                    <li class="product-item">
+                        <span class="product-name">{{ product.name }}</span>
+                        <span class="product-price">{{ product.price }} €</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

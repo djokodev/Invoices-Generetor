@@ -1,0 +1,96 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block header %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Liste des Clients</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: #f4f6f9;
+                color: #333;
+                line-height: 1.6;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                color: #2c3e50;
+                margin-bottom: 30px;
+                text-align: center;
+                font-weight: 600;
+            }
+
+            .customer-card {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                transition: transform 0.3s ease;
+            }
+
+            .customer-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .customer-info {
+                margin-bottom: 10px;
+            }
+
+            .customer-name {
+                font-size: 1.5rem;
+                color: #3498db;
+                font-weight: 600;
+            }
+
+            .customer-detail {
+                font-size: 1rem;
+                color: #555;
+            }
+
+            @media (max-width: 768px) {
+                h1 {
+                    font-size: 2rem;
+                }
+
+                .customer-name {
+                    font-size: 1.3rem;
+                }
+            }
+        </style>
+    </head>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <h1>Liste des Clients</h1>
+    {% for customer in customers %}
+        <div class="customer-card">
+            <div class="customer-info">
+                <span class="customer-name">{{ customer.first_name }} {{ customer.name }}</span>
+            </div>
+            <div class="customer-detail">Adresse : {{ customer.address }}</div>
+            <div class="customer-detail">Code Postal : {{ customer.postal_code }}</div>
+            <div class="customer-detail">Ville : {{ customer.city }}</div>
+            <div class="customer-detail">Email : {{ customer.email }}</div>
+            <div class="customer-detail">Téléphone : {{ customer.phone }}</div>
+        </div>
+    {% empty %}
+        <p>Aucun client trouvé.</p>
+    {% endfor %}
+</div>
+{% endblock %}

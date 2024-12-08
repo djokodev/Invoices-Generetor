@@ -17,13 +17,18 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from users.views import Home, DashboardView
-
+from users.views import Home, dashboard_view, category_product_list, list_customers
 
 urlpatterns = [
     path("", Home, name="home"),
     path("admin/", admin.site.urls),
-    path("dashboard/", DashboardView, name="dashboard"),
+    path("dashboard/", dashboard_view, name="dashboard"),
+    path("list-customers/", list_customers, name="list_customers"),
+    path(
+        "list-categories-products/",
+        category_product_list,
+        name="list_categories_products",
+    ),
     path("users/", include("users.urls")),
     path("customers/", include("customers.urls")),
     path("products/", include("products.urls")),
