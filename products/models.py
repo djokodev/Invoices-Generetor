@@ -12,7 +12,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     brand = models.CharField(max_length=255)
     reference = models.CharField(max_length=50, unique=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="product category")
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     tva = models.DecimalField(max_digits=4, decimal_places=2, default=19.25)

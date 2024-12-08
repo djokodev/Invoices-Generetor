@@ -12,6 +12,19 @@ class Invoice(models.Model):
         ("cancelled", "Annulée"),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    @property
+    def short_id(self):
+        """
+        Get a shortened version of the invoice's UUID.
+
+        This property method returns the first 8 characters of the invoice's ID,
+        providing a more concise identifier for display or reference purposes.
+
+        Returns:
+            str: The first 8 characters of the invoice's UUID.
+        """
+        return str(self.id)[:8]
+    
     customer = models.ForeignKey("customers.Customer", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

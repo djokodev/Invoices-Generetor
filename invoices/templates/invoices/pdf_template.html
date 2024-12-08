@@ -1,145 +1,240 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            color: #333;
-        }
+{% extends '_base.html' %}
+{% load static %}
 
-        .header {
-            margin-bottom: 50px;
-            display: flex;
-            justify-content: space-between;
-        }
 
-        .company-info {
-            float: left;
-            width: 40%;
-        }
+{% block header %}
+    <head>
+        <meta charset="utf-8">
+        <title>Facture</title>
+        <meta name="description" content="Facture générée">
+        <style>
+            @font-face {
+				font-family: Pacifico;
+				src: url('https://cdn.jsdelivr.net/fontsource/fonts/pacifico@latest/latin-400-normal.ttf')
+					format("truetype");
+			}
 
-        .company-info h2 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
+			@font-face {
+				font-family: Source Sans Pro;
+				font-weight: 400;
+				src: url('https://cdn.jsdelivr.net/fontsource/fonts/source-code-pro:vf@latest/latin-wght-normal.woff2')
+					format("woff2-variations");
+			}
 
-        .company-info p {
-            margin: 5px 0;
-            color: #7f8c8d;
-        }
+			@font-face {
+				font-family: Source Sans Pro;
+				font-weight: 700;
+				src: url('https://cdn.jsdelivr.net/fontsource/fonts/source-code-pro:vf@latest/latin-wght-normal.woff2')
+					format("woff2-variations");
+			}
 
-        .invoice-details {
-            float: right;
-            width: 40%;
-            text-align: right;
-        }
+			@page {
+				font-family: Pacifico;
+				margin: 2cm;
 
-        .invoice-details h1 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
+				@bottom-left {
+					color: #1ee494;
+					content: "♥ Thank you!";
+				}
 
-        .client-info {
-            clear: both;
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-        }
+				@bottom-right {
+					color: #a9a;
+					content: "djokodev75@gmail.com | djokodev.com";
+					font-size: 14pt;
+				}
+			}
 
-        .client-info h3 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
+			html {
+				color: #14213d;
+				font-family: Source Sans Pro;
+				font-size: 11pt;
+				line-height: 1.6;
+			}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-        }
+			body {
+				margin: 0;
+			}
 
-        th {
-            background-color: #2c3e50;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
+			h1 {
+				color: #1ee494;
+				font-family: Pacifico;
+				font-size: 40pt;
+				margin: 0;
+			}
 
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-        }
+            aside p {
+                margin: 0; 
+                margin-bottom: 0;
+            }
+     
+			aside {
+				display: flex;
+				margin: 0 0 5em;
+			}
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+			aside address {
+				font-style: normal;
+				white-space: pre-line;
+			}
 
-        .total {
-            text-align: right;
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-        }
+            aside address p {
+                margin: 0; 
+            }
 
-        .total p {
-            font-size: 1.2em;
-            color: #2c3e50;
-            font-weight: bold;
-        }
+			aside address#from {
+				color: #a9a;
+				flex: 1;
+			}
 
-        /* Ajout d'une ligne de séparation */
-        .separator {
-            border-top: 2px solid #2c3e50;
-            margin: 30px 0;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="invoice-details">
-            <h1>Facture #{{ invoice.id }}</h1>
-            <p>Date: {{ invoice.date }}</p>
-            <p>Délivré par : {{ invoice.user.email }}</p>
-        </div>
-    </div>
+			aside address#to {
+				text-align: right;
+			}
 
-    <div class="separator"></div>
+			dl {
+				position: absolute;
+				right: 0;
+				text-align: right;
+				top: 0;
+			}
 
-    <div class="client-info">
-        <h3>Facturer à:</h3>
-        <p>Nom: {{ invoice.customer.name }} {{ invoice.customer.first_name }}</p>
-        <p>Email: {{ invoice.customer.email }}</p>
-        <p>Tel: {{ invoice.customer.phone }}</p>
-        <p> Adresse: {{ invoice.customer.address }}</p>
-    </div>
+			dt,
+			dd {
+				display: inline;
+				margin: 0;
+			}
+
+			dt {
+				color: #a9a;
+			}
+
+			dt::before {
+				content: "";
+				display: block;
+			}
+
+			dt::after {
+				content: ":";
+			}
+
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+
+			th {
+				border-bottom: 0.2mm solid #a9a;
+				color: #a9a;
+				font-size: 10pt;
+				font-weight: 400;
+				padding-bottom: 0.25cm;
+				text-transform: uppercase;
+			}
+
+			td {
+				padding-top: 7mm;
+			}
+
+			td:last-of-type {
+				color: #1ee494;
+				font-weight: bold;
+				text-align: right;
+			}
+
+			th,
+			td {
+				text-align: center;
+			}
+
+			th:first-of-type,
+			td:first-of-type {
+				text-align: left;
+			}
+
+			th:last-of-type,
+			td:last-of-type {
+				text-align: right;
+			}
+
+			footer {
+				content: "";
+				display: block;
+				height: 6cm;
+			}
+
+			table#total {
+				background: #f6f6f6;
+				border-color: #f6f6f6;
+				border-style: solid;
+				border-width: 2cm 3cm;
+				bottom: 0;
+				font-size: 20pt;
+				margin: 0 -3cm;
+				position: absolute;
+				width: 18cm;
+			}
+			.footer > td {
+				text-align: right;
+			}
+			.tptt {
+				font-weight: 800;
+			}
+            
+        </style>
+    </head>
+{% endblock header %}
+
+{% block content %}
+    <h1>Invoice</h1>
+
+    <aside>
+        <address id="from">
+            <p>Djokodev.io</p>
+            <p>College évangélique de Newbell</p>
+            <p>Douala, Cameroun</p>
+        </address>
+        <address id="to">
+            <p>{{ invoice.customer.name }} {{ invoice.customer.first_name }}</p>
+            <p>{{ invoice.customer.address }}</p>
+            <p>{{ invoice.customer.email }}</p>
+            <p>{{ invoice.customer.phone }}</p>
+        </address>
+    </aside>
+
+    <dl id="informations">
+        <dt>Numéro de facture</dt>
+        <dd>{{ invoice.short_id}}</dd>
+        <dt>Date</dt>
+        <dd>{{ invoice.date }}</dd>
+    </dl>
 
     <table>
         <thead>
             <tr>
-                <th>Produit</th>
-                <th>Quantité</th>
+                <th>Description</th>
                 <th>Prix unitaire</th>
-                <th>TVA</th>
+                <th>Quantité</th>
                 <th>Total TTC</th>
+                <th>TVA</th>
             </tr>
         </thead>
         <tbody>
             {% for line in invoice.lines.all %}
             <tr>
                 <td>{{ line.product.name }}</td>
-                <td>{{ line.quantity }}</td>
                 <td>{{ line.unit_price }}€</td>
-                <td>{{ line.tva }}%</td>
+                <td>{{ line.quantity }}</td>
                 <td>{{ line.total_price }}€</td>
+                <td>{{ line.tva }}€</td>
             </tr>
             {% endfor %}
+
+            <tr class="footer">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="tptt">Total PRICE TTC</td>
+                <td class="tptt">{{ line.price_ttc }}</td>
+            </tr>
         </tbody>
     </table>
-
-    <div class="total">
-        <p>Total TTC : {{ invoice.total_price }}€</p>
-    </div>
-</body>
-</html> 
+{% endblock %}
