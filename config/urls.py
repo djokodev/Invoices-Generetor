@@ -18,10 +18,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from users.views import Home, dashboard_view, category_product_list, list_customers
+from .views import healthcheck_view
 
 urlpatterns = [
     path("", Home, name="home"),
     path("admin/", admin.site.urls),
+    path("health/", healthcheck_view, name="healthcheck"),
     path("dashboard/", dashboard_view, name="dashboard"),
     path("list-customers/", list_customers, name="list_customers"),
     path(

@@ -1,7 +1,10 @@
 FROM python:3.12
 
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 # Installation des dépendances système pour WeasyPrint
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     python3-cffi \
     python3-brotli \
@@ -16,9 +19,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /code
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+RUN chmod +x /code/scripts/run.sh
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
+CMD ["sh", "/code/scripts/run.sh"]

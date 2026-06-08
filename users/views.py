@@ -15,11 +15,13 @@ def Home(request):
     return render(request, "home.html")
 
 
+@login_required
 def category_product_list(request):
     categories = Category.objects.prefetch_related("product_set")
     return render(request, "category_product_list.html", {"categories": categories})
 
 
+@login_required
 def list_customers(request):
     customers = Customer.objects.all()
     return render(request, "list_customers.html", {"customers": customers})

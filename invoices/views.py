@@ -1,5 +1,6 @@
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, get_object_or_404
 from django.shortcuts import HttpResponse
 from .models import Invoice, InvoiceProduct
@@ -26,13 +27,15 @@ def delete_invoice(request, invoice_id):
     return redirect("invoices:draft_invoices")
 
 
+@login_required
 def draft_invoices_view(request):
     drafts = Invoice.objects.filter(status="draft", user=request.user)
     return render(request, "invoices/draft_invoices.html", {"drafts": drafts})
 
 
+@login_required
 def edit_invoices(request, invoice_id):
-    invoice = get_object_or_404(Invoice, id=invoice_id)
+    invoice = get_object_or_404(Invoice, id=invoice_id, user=request.user)
 
     if request.method == "POST":
 
@@ -71,8 +74,9 @@ def edit_invoices(request, invoice_id):
     return render(request, "invoices/edit_invoice.html", context=context)
 
 
+@login_required
 def generate_invoice_pdf(request, invoice_id):
-    invoice = get_object_or_404(Invoice, id=invoice_id)
+    invoice = get_object_or_404(Invoice, id=invoice_id, user=request.user)
 
     html_string = render_to_string("invoices/pdf_template.html", {"invoice": invoice})
 
