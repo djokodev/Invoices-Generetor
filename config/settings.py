@@ -21,16 +21,28 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def _env_bool(name: str, default: bool = False) -> bool:
+    value = os.getenv(name)
+    if value is None or not value.strip():
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _env_list(name: str, default: str) -> list[str]:
+    value = os.getenv(name) or default
+    return [host.strip() for host in value.split(",") if host.strip()]
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-default-key")
+SECRET_KEY = os.getenv("SECRET_KEY") or "unsafe-default-key"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False")
+DEBUG = _env_bool("DEBUG", False)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = _env_list("ALLOWED_HOSTS", "localhost,127.0.0.1,[::1]")
 
 
 # Application definition
@@ -50,6 +62,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -85,11 +98,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DATABASE_NAME", "default_db"),
-        "USER": os.getenv("DATABASE_USER", "default_user"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD", "default_password"),
-        "HOST": os.getenv("DATABASE_HOST", "localhost"),
-        "PORT": os.getenv("DATABASE_PORT", "5432"),
+        "NAME": os.getenv("DATABASE_NAME") or "default_db",
+        "USER": os.getenv("DATABASE_USER") or "default_user",
+        "PASSWORD": os.getenv("DATABASE_PASSWORD") or "default_password",
+        "HOST": os.getenv("DATABASE_HOST") or "localhost",
+        "PORT": os.getenv("DATABASE_PORT") or "5432",
     }
 }
 
@@ -130,6 +143,16 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = Path(os.getenv("STATIC_ROOT") or (BASE_DIR / "staticfiles"))
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
